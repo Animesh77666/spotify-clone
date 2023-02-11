@@ -1,17 +1,30 @@
 import { fetchRequest } from "../api";
 import { ENDPOINT } from "../common";
 
-const loadUserProfile = async()=>{
-    const defaultImage = document.querySelector('#default-image');
-    const profileButton = document.querySelector('#user-profile-button');
-    const displayNameElement = document.querySelector('#display-name');
-
-    const userInfo = await fetchRequest(ENDPOINT.userInfo);
-    console.log(userInfo);
+const onProfileClick = (event)=>{
 
 }
 
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    loadUserProfile();
-})
+const loadUserProfile = async () => {
+  const defaultImage = document.querySelector("#default-image");
+  const profileButton = document.querySelector("#user-profile-button");
+  const displayNameElement = document.querySelector("#display-name");
+
+  const { display_name: displayName, images } = await fetchRequest(
+    ENDPOINT.userInfo
+  );
+
+  if (images?.length) {
+    defaultImage.classList.add("hidden");
+  } else {
+    defaultImage.classList.remove("hidden");
+  }
+  profileButton.addEventListener("click", onProfileClick)
+};
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadUserProfile();
+});
